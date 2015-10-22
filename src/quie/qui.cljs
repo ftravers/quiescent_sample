@@ -8,18 +8,20 @@
 (defonce world (atom {:text "Hellooo!"}))
 
 ;; the component
-(q/defcomponent Root [data] (html [:h1 (:text data)]))
-
-;; (q/defcomponent )
-;; [:input {:type "text" :ref "new-contact"}]
+(q/defcomponent myin [data]
+  (html [:input {:type "text" :value (:text data)
+                 :on-change
+                 #(swap! world assoc :text
+                         (-> % .-target .-value))} ]))
 
 ;; stick component on page
 (defn render [cmp data]
   (q/render (cmp data) (.getElementById js/document "app")))
 
 ;; if data store changes, re-render page
-(add-watch world ::render (fn [_ _ _ data] (render Root data)))
+(add-watch world ::render (fn [_ _ _ data] (render myin data)))
 
+;; when pages is reloaded, modify 'world' triggering a re-render
 (defn on-js-reload [] (swap! world update-in [:tmp-dev] not))
 
 
