@@ -6,14 +6,23 @@ A 'hello world' for quiescent.
 
 Demonstrates simple 2-way data binding.
 
-Run lein figwheel,
+Run
+
+    % lein figwheel
 
 Load: http://localhost:3449
 
 Launch clj(s) REPLs
 
-In cljs REPL do: @world and (swap! world assoc :text "abc")
-to show updating data from front-end or back-end.
+In cljs REPL do:
+
+    @world
+
+and
+
+    (swap! world assoc :text "abc")
+
+to show updating data from front or back-end.
 
 ## License
 
