@@ -1,27 +1,25 @@
 (ns ^:figwheel-always quie.qui
   (:require [quiescent.core :as q]
-            [weasel.repl :as repl]
+            [weasel.repl :as repl] ;; for CLJS REPL
             [sablono.core :as html :refer-macros [html]]))
-(repl/connect "ws://localhost:9001")
+(repl/connect "ws://localhost:9001") ;; for CLJS REPL
 
 ;; the data store
-(defonce world (atom {:text "Hellooo!"}))
+(defonce world (atom {:text "Hello!"}))
 
-;; the component
-(q/defcomponent myin [data]
+;; define component
+(q/defcomponent Root [data]
   (html [:input {:type "text" :value (:text data)
-                 :on-change
-                 #(swap! world assoc :text
-                         (-> % .-target .-value))} ]))
-
+                 :on-change #(swap! world assoc :text (-> % .-target .-value))}]))
+ 
 ;; stick component on page
-(defn render [cmp data]
-  (q/render (cmp data) (.getElementById js/document "app")))
+(defn render [data]
+  (q/render (Root data) (.getElementById js/document "app")))
 
 ;; if data store changes, re-render page
-(add-watch world ::render (fn [_ _ _ data] (render myin data)))
+(add-watch world ::render (fn [_ _ _ data] (render data))) 
 
-;; when pages is reloaded, modify 'world' triggering a re-render
+;; on file reload, modify 'world' triggering a re-render
 (defn on-js-reload [] (swap! world update-in [:tmp-dev] not))
 
 
