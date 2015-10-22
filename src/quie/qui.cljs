@@ -12,7 +12,7 @@
   (html [:input {:type "text" :value (:text data)
                  :on-change #(swap! world assoc :text (-> % .-target .-value))}]))
  
-;; stick component on page
+;; render component on page
 (defn render [data]
   (q/render (Root data) (.getElementById js/document "app")))
 
