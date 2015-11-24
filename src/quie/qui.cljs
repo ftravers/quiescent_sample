@@ -1,3 +1,4 @@
+
 (ns ^:figwheel-always quie.qui
   (:require [quiescent.core :as q]
             [weasel.repl :as repl] ;; for CLJS REPL
@@ -9,8 +10,8 @@
 
 ;; define component
 (q/defcomponent Root [data]
-  (html [:input {:type "text" :value (:text data)
-                 :on-change #(swap! world assoc :text (-> % .-target .-value))}]))
+  (html [:div [:p "Fenton " [:b "mo"]] [:input {:type "text" :value (:text data)
+                 :on-change #(swap! world assoc :text (-> % .-target .-value))}]]))
  
 ;; render component on page
 (defn render [data]
